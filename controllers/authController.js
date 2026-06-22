@@ -17,7 +17,7 @@ const githubLogin = (req, res) => {
   if (!clientId) {
     return res.status(500).json({ message: "GitHub Client ID is not configured on the server." });
   }
-  const redirectUri = "http://localhost:3000/auth/github/callback";
+  const redirectUri = process.env.API_URL ? `${process.env.API_URL}/auth/github/callback` : "http://localhost:3000/auth/github/callback";
   const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user:email`;
   res.redirect(githubAuthUrl);
 };
@@ -90,7 +90,8 @@ const githubCallback = async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: "7d" });
 
-    res.redirect(`http://localhost:5173/auth/success?token=${token}&userId=${user._id}`);
+    const frontendUrl = process.env.CLIENT_URL || "http://localhost:5173";
+    res.redirect(`${frontendUrl}/auth/success?token=${token}&userId=${user._id}`);
   } catch (err) {
     res.status(500).send("Failed to authenticate with GitHub");
   }
@@ -101,7 +102,7 @@ const googleLogin = (req, res) => {
   if (!clientId) {
     return res.status(500).json({ message: "Google Client ID is not configured on the server." });
   }
-  const redirectUri = "http://localhost:3000/auth/google/callback";
+  const redirectUri = process.env.API_URL ? `${process.env.API_URL}/auth/google/callback` : "http://localhost:3000/auth/google/callback";
   const scope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email";
   const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline&prompt=consent`;
   res.redirect(googleAuthUrl);
@@ -124,7 +125,7 @@ const googleCallback = async (req, res) => {
         client_id: process.env.GOOGLE_CLIENT_ID,
         client_secret: process.env.GOOGLE_CLIENT_SECRET,
         code,
-        redirect_uri: "http://localhost:3000/auth/google/callback",
+        redirect_uri: process.env.API_URL ? `${process.env.API_URL}/auth/google/callback` : "http://localhost:3000/auth/google/callback",
         grant_type: "authorization_code",
       }),
     });
@@ -170,7 +171,8 @@ const googleCallback = async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: "7d" });
 
-    res.redirect(`http://localhost:5173/auth/success?token=${token}&userId=${user._id}`);
+    const frontendUrl = process.env.CLIENT_URL || "http://localhost:5173";
+    res.redirect(`${frontendUrl}/auth/success?token=${token}&userId=${user._id}`);
   } catch (err) {
     res.status(500).send("Failed to authenticate with Google");
   }

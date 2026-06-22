@@ -115,14 +115,14 @@ function startServer() {
     .catch((err) => {
     });
 
-  app.use(cors({ origin: "*" }));
+  app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173" }));
 
   app.use("/", mainRouter);
 
   const httpServer = http.createServer(app);
   const io = new Server(httpServer, {
     cors: {
-      origin: "*",
+      origin: process.env.CLIENT_URL || "http://localhost:5173",
       methods: ["GET", "POST"],
     },
   });
