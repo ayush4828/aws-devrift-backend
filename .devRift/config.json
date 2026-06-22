@@ -1,0 +1,13 @@
+{
+  "bucket": "devriftbucket",
+  "repoId": "6a378777b01326d391e084f4",
+  "serverUrl": "http://localhost:3000",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMzc1ZDU0M2ViZGE1OWRjNDVkMTZlYiIsImlhdCI6MTc4MjAyNDIxNCwiZXhwIjoxNzgyNjI5MDE0fQ.tm48e00YQHkYQ7TR-Ycsuw6M7ZlROzdtYWdoYWMAVFw",
+  "pushedCommits": [
+    "0b13842b-5b60-488d-a794-e5e106576c2f",
+    "ee3e6a3b-6366-4894-b1cb-2f913f58eddc",
+    "c52720e4-f06c-498d-b7c0-05a65c07afdb",
+    "95ab2b29-3094-431c-ad92-84620f692099"
+  ],
+  "userId": "6a375d543ebda59dc45d16eb"
+}

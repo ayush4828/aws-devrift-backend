@@ -1,0 +1,38 @@
+const fs   = require("fs").promises;
+const path = require("path");
+
+async function initRepo(repoId) {
+  const repoPath   = path.resolve(process.cwd(), ".devRift");
+  const commitPath = path.join(repoPath, "commits");
+  const stagePath  = path.join(repoPath, "staging");
+
+  try {
+    await fs.mkdir(repoPath,   { recursive: true });
+    await fs.mkdir(commitPath, { recursive: true });
+    await fs.mkdir(stagePath,  { recursive: true });
+
+    let existingConfig = {};
+    try {
+      const raw = await fs.readFile(path.join(repoPath, "config.json"), "utf-8");
+      existingConfig = JSON.parse(raw);
+    } catch (e) {
+    }
+
+    const config = {
+      bucket:    process.env.S3_BUCKET || existingConfig.bucket || "",
+      repoId:    repoId || existingConfig.repoId || "",
+      serverUrl: process.env.DEVRIFT_SERVER_URL || existingConfig.serverUrl || "http://localhost:3000",
+      token:     existingConfig.token || "",  // preserved if already logged in
+      pushedCommits: existingConfig.pushedCommits || [] // preserve history!
+    };
+
+    await fs.writeFile(path.join(repoPath, "config.json"), JSON.stringify(config, null, 2));
+
+    if (!repoId) {
+    } else {
+    }
+  } catch (err) {
+  }
+}
+
+module.exports = { initRepo };
