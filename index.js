@@ -128,7 +128,7 @@ app.use(cors({ origin: allowedOrigins }));
   const httpServer = http.createServer(app);
   const io = new Server(httpServer, {
     cors: {
-      origin: process.env.CLIENT_URL || "http://localhost:5173",
+      origin: [process.env.CLIENT_URL, "https://www.devrift.in", "http://localhost:5173"],
       methods: ["GET", "POST"],
     },
   });
