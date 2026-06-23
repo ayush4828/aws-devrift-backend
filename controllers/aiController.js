@@ -5,20 +5,40 @@ const Issue      = require("../model/issueModel");
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-async function askAI(prompt) {
-  try {
-    const result = await model.generateContent(prompt);
-    return result.response.text();
-  } catch (err) {
-    if (err.message?.includes("429") || err.message?.includes("quota")) {
-      throw new Error(
-        "Gemini API quota exceeded. Your free-tier daily limit has been reached. " +
-        "Please get a new API key at https://aistudio.google.com/app/apikey and update GEMINI_API_KEY in your .env file."
-      );
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function askAI(prompt, retries = 3) {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const result = await model.generateContent(prompt);
+      return result.response.text();
+    } catch (err) {
+      const is503 = err.message?.includes("503") || err.message?.includes("Service Unavailable") || err.message?.includes("high demand");
+      const is429 = err.message?.includes("429") || err.message?.includes("quota");
+
+      if (is429) {
+        throw new Error(
+          "Gemini API quota exceeded. Your free-tier daily limit has been reached. " +
+          "Please get a new API key at https://aistudio.google.com/app/apikey and update GEMINI_API_KEY in your .env file."
+        );
+      }
+
+      if (is503 && attempt < retries) {
+        const waitMs = attempt * 3000; // 3s, 6s, 9s
+        console.log(`[AI] Gemini 503 on attempt ${attempt}. Retrying in ${waitMs / 1000}s...`);
+        await sleep(waitMs);
+        continue;
+      }
+
+      if (is503) {
+        throw new Error("The AI service is currently overloaded. Please try again in a few seconds.");
+      }
+
+      throw err;
     }
-    throw err;
   }
 }
+
 
 
 
