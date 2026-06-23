@@ -3,13 +3,7 @@
 const yargs = require("yargs");
 const { hideBin } = require("yargs/helpers");
 
-const { initRepo }    = require("./controllers/init");
-const { addRepo }     = require("./controllers/add");
-const { commitRepo }  = require("./controllers/commit");
-const { pushRepo }    = require("./controllers/push");
-const { pullRepo }    = require("./controllers/pull");
-const { revertRepo }  = require("./controllers/revert");
-const { loginCLI }   = require("./controllers/loginCLI");
+// Controllers are loaded lazily to improve performance and prevent global side effects
 
 yargs(hideBin(process.argv))
   .command("start", "start a new server", {}, startServer)
@@ -25,7 +19,7 @@ yargs(hideBin(process.argv))
       });
     },
     (argv) => {
-      initRepo(argv.repoId);
+      require("./controllers/init").initRepo(argv.repoId);
     },
   )
 
@@ -38,7 +32,7 @@ yargs(hideBin(process.argv))
         .option("password", { type: "string", description: "Your DevRift password", demandOption: true });
     },
     (argv) => {
-      loginCLI(argv);
+      require("./controllers/loginCLI").loginCLI(argv);
     },
   )
 
@@ -52,7 +46,7 @@ yargs(hideBin(process.argv))
       });
     },
     (argv) => {
-      addRepo(argv.file);
+      require("./controllers/add").addRepo(argv.file);
     },
   )
 
@@ -66,13 +60,13 @@ yargs(hideBin(process.argv))
       });
     },
     (argv) => {
-      commitRepo(argv.message);
+      require("./controllers/commit").commitRepo(argv.message);
     },
   )
 
-  .command("push", "Push commits to DevRift via the backend", {}, pushRepo)
+  .command("push", "Push commits to DevRift via the backend", {}, (argv) => require("./controllers/push").pushRepo())
 
-  .command("pull", "Pull commits from S3", {}, pullRepo)
+  .command("pull", "Pull commits from S3", {}, (argv) => require("./controllers/pull").pullRepo())
 
   .command(
     "revert <commitId>",
@@ -84,7 +78,7 @@ yargs(hideBin(process.argv))
       });
     },
     (argv) => {
-      revertRepo(argv.commitId);
+      require("./controllers/revert").revertRepo(argv.commitId);
     },
   )
 
