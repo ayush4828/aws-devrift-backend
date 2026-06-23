@@ -19,9 +19,9 @@ async function initRepo(repoId) {
     }
 
     const config = {
-      bucket:    process.env.S3_BUCKET || existingConfig.bucket || "",
+      bucket:    existingConfig.bucket || "",
       repoId:    repoId || existingConfig.repoId || "",
-      serverUrl: process.env.DEVRIFT_SERVER_URL || existingConfig.serverUrl || "http://localhost:3000",
+      serverUrl: existingConfig.serverUrl || "https://api.devrift.in",
       token:     existingConfig.token || "",  // preserved if already logged in
       pushedCommits: existingConfig.pushedCommits || [] // preserve history!
     };

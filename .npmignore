@@ -1,0 +1,10 @@
+# Never publish secrets or server files
+.env
+.env.*
+check_js.js
+dropIndex.js
+node_modules/
+*.log
+
+# These are server-only files, not needed for CLI users
+# (they are still in the repo for EC2 deployment, just excluded from npm package)

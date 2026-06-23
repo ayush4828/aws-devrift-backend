@@ -1,17 +1,36 @@
 {
-  "name": "backend",
+  "name": "devrift",
   "version": "1.0.0",
-  "description": "Git Clone",
+  "description": "DevRift CLI — push your code to DevRift, the developer collaboration platform",
   "main": "index.js",
   "bin": {
     "devrift": "./index.js"
   },
+  "files": [
+    "index.js",
+    "controllers/",
+    "routes/",
+    "model/",
+    "config/",
+    "middleware/"
+  ],
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js start"
   },
-  "keywords": [],
+  "keywords": [
+    "devrift",
+    "git",
+    "version-control",
+    "cli",
+    "code-push"
+  ],
   "author": "Ayush Patel",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ayush4828/aws-devrift-backend"
+  },
+  "homepage": "https://www.devrift.in",
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "aws-sdk": "^2.1693.0",
@@ -35,3 +54,4 @@
     "yargs": "^18.0.0"
   }
 }
+
