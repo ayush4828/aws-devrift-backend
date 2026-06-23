@@ -33,9 +33,11 @@ async function loginCLI(argv) {
     config.token  = token;
     config.userId = userId;
     await fs.writeFile(configPath, JSON.stringify(config, null, 2));
-
+    
+    console.log("✅ Successfully logged in to DevRift!");
   } catch (err) {
     const msg = err.response?.data?.message || err.message;
+    console.error("❌ Login failed:", msg);
   }
 }
 

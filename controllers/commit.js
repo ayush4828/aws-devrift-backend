@@ -27,6 +27,7 @@ async function commitRepo(message) {
 
     const rootFiles = await fs.readdir(stagingPath).catch(() => []);
     if (rootFiles.length === 0) {
+      console.log("⚠️ Nothing to commit. Staging area is empty.");
       return;
     }
 
@@ -57,8 +58,11 @@ async function commitRepo(message) {
 
     await fs.rm(stagingPath, { recursive: true, force: true }).catch(() => {});
     await fs.mkdir(stagingPath, { recursive: true });
+    
+    console.log(`✅ Commit created successfully: ${commitId}`);
 
   } catch (err) {
+    console.error("❌ Failed to commit:", err.message);
   }
 }
 

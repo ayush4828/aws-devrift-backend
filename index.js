@@ -1,12 +1,4 @@
 #!/usr/bin/env node
-const express = require("express");
-const dotenv = require("dotenv").config();
-const cors = require("cors");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const http = require("http");
-const { Server } = require("socket.io");
-const mainRouter = require("./routes/main.router");
 
 const yargs = require("yargs");
 const { hideBin } = require("yargs/helpers");
@@ -100,6 +92,15 @@ yargs(hideBin(process.argv))
   .help().argv;
 
 function startServer() {
+  const express = require("express");
+  require("dotenv").config();
+  const cors = require("cors");
+  const mongoose = require("mongoose");
+  const bodyParser = require("body-parser");
+  const http = require("http");
+  const { Server } = require("socket.io");
+  const mainRouter = require("./routes/main.router");
+
   const app = express();
   const port = process.env.PORT || 3000;
 

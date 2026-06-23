@@ -58,9 +58,12 @@ async function addRepo(filepath) {
     await traverseAndCopy(resolvedFilepath);
 
     if (addedCount > 0) {
+      console.log(`✅ Added ${addedCount} file(s) to staging.`);
     } else {
+      console.log(`⚠️ No new files to add.`);
     }
   } catch (err) {
+    console.error("❌ Failed to add files:", err.message);
   }
 }
 

@@ -81,6 +81,7 @@ async function pushRepo() {
     }
 
     if (unpushedDirs.length === 0) {
+      console.log("✅ Everything is up to date! Nothing to push.");
       return;
     }
 
@@ -147,8 +148,10 @@ async function pushRepo() {
     if (newlyPushed.length > 0) {
       config.pushedCommits = [...pushedCommits];
       await writeConfig(repoRoot, config);
+      console.log(`🚀 Successfully pushed ${newlyPushed.length} commit(s) to DevRift!`);
     }
   } catch (err) {
+    console.error("❌ Failed to push:", err.message);
   }
 }
 

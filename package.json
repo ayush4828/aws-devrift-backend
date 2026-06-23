@@ -1,6 +1,6 @@
 {
   "name": "devrift",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "DevRift CLI — push your code to DevRift, the developer collaboration platform",
   "main": "index.js",
   "bin": {
@@ -12,7 +12,8 @@
     "routes/",
     "model/",
     "config/",
-    "middleware/"
+    "middleware/",
+    "utils/"
   ],
   "scripts": {
     "start": "node index.js start"

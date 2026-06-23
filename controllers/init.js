@@ -29,9 +29,12 @@ async function initRepo(repoId) {
     await fs.writeFile(path.join(repoPath, "config.json"), JSON.stringify(config, null, 2));
 
     if (!repoId) {
+      console.log("✅ Initialized empty DevRift repository. (No repoId linked)");
     } else {
+      console.log(`✅ Initialized DevRift repository and linked to: ${repoId}`);
     }
   } catch (err) {
+    console.error("❌ Failed to initialize repository:", err.message);
   }
 }
 
