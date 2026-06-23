@@ -1,6 +1,6 @@
 {
   "name": "devrift",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "DevRift CLI — push your code to DevRift, the developer collaboration platform",
   "main": "index.js",
   "bin": {

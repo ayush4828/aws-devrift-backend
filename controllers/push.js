@@ -142,6 +142,7 @@ async function pushRepo() {
         newlyPushed.push(commitDir);
       } catch (err) {
         const msg = err.response?.data?.message || err.message;
+        throw new Error(`Server rejected push for commit ${commitDir}: ${msg}`);
       }
     }
 
