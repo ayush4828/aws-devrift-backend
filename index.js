@@ -115,7 +115,13 @@ function startServer() {
     .catch((err) => {
     });
 
-  app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173" }));
+  const allowedOrigins = [
+  process.env.CLIENT_URL,
+  "https://www.devrift.in",
+  "http://localhost:5173"
+];
+
+app.use(cors({ origin: allowedOrigins }));
 
   app.use("/", mainRouter);
 
